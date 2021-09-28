@@ -7,7 +7,7 @@ require_once './install.php';
 global $pdo;
 
 /* Select query template */
-$query = 'SELECT `title`, `created_at`, `body`
+$query = 'SELECT `id`, `title`, `created_at`, `body`
               FROM `post`
               ORDER BY `created_at` DESC';
 
@@ -37,12 +37,8 @@ try {
     <p>This paragraph summarises what the blog is about</p>
 
     <?php
-    $john = $res->fetch(PDO::FETCH_ASSOC);
-    echo "Paziurime: ";
-    echo gettype($john);
-    echo '<pre>';
-    var_dump($john);
-    echo '</pre>';
+    /* Consequent calls to the "fetch" function will return the resulting
+       rows one by one*/
     while ($row = $res->fetch(PDO::FETCH_ASSOC)) :
 
     ?>
@@ -56,7 +52,7 @@ try {
             <?php echo htmlspecialchars($row['body'], ENT_HTML5, 'UTF-8') ?>
         </p>
         <p>
-            <a href="#">Read more...</a>
+            <a href="view-post.php?post_id=<?= $row[$id] ?>">Read more...</a>
         </p>
     <?php endwhile ?>
 </body>
